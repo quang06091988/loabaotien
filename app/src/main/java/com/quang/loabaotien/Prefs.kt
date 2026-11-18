@@ -13,4 +13,8 @@ object Prefs {
 
     fun rate(c: Context) = sp(c).getFloat("rate", 1.0f)
     fun setRate(c: Context, v: Float) = sp(c).edit().putFloat("rate", v).apply()
+
+    /** Nhật ký chẩn đoán: dịch vụ ghi, màn hình chính đọc ra để hiển thị. */
+    fun diagGet(c: Context, k: String): String = sp(c).getString("d_$k", "") ?: ""
+    fun diagSet(c: Context, k: String, v: String) = sp(c).edit().putString("d_$k", v).apply()
 }
