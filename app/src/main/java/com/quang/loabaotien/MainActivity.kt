@@ -79,7 +79,7 @@ class MainActivity : Activity() {
             setOnCheckedChangeListener { _, on -> Prefs.setEnabled(this@MainActivity, on) }
         })
 
-        root.addView(label("Từ khóa lọc (tên nhóm hoặc bot trong Telegram):"))
+        root.addView(label("Từ khóa lọc (chỉ đọc tin có chứa cụm này, để trống = đọc mọi tin \"Tiền vào\"):"))
         root.addView(EditText(this).apply {
             setText(Prefs.keyword(this@MainActivity))
             setSingleLine()

@@ -7,9 +7,11 @@ import java.util.Locale
 data class Tx(val amount: Long, val key: String, val durable: Boolean)
 
 object Parser {
-    private val reAmount = Regex("^\\s*:\\s*([0-9][0-9.,]*)")
-    private val reRef = Regex("ma tham chieu\\s*:\\s*([a-z0-9\\-]+)")
-    private val reTime = Regex("giao dich luc\\s*:\\s*([0-9]{4}-[0-9]{2}-[0-9]{2}\\s+[0-9:]{8})")
+    // Sau dấu ":" cho phép ký tự lạ (xuống dòng, dấu ```, emoji, dấu +) trước khi tới giá trị.
+    // Văn bản đã được normalize nên mọi chữ cái đều là a-z; [^0-9a-z] chỉ gồm ký tự không phải chữ/số.
+    private val reAmount = Regex("^\\s*:[^0-9a-z]{0,40}?([0-9][0-9.,]*)")
+    private val reRef = Regex("ma tham chieu\\s*:[^0-9a-z]{0,40}?([0-9a-z\\-]*[0-9][0-9a-z\\-]*)")
+    private val reTime = Regex("giao dich luc\\s*:[^0-9a-z]{0,40}?([0-9]{4}-[0-9]{2}-[0-9]{2}\\s+[0-9:]{8})")
 
     /** Bỏ dấu, hạ chữ thường: "Tiền vào" -> "tien vao". */
     fun normalize(s: String): String {
